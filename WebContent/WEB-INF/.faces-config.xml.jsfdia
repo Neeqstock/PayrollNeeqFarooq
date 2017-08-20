@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#login.xhtml" PATH="/login.xhtml"
+  SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#login.xhtml:0" NAME="item"
+   PATH="/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="admin::#admin.xhtml" NAME="output"
+    PATH="/admin.xhtml" TARGET="rules:#admin.xhtml" TITLE="admin" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="Hourly::#hourlyemployee.xhtml"
+    NAME="output1" PATH="/hourlyemployee.xhtml"
+    TARGET="rules:#hourlyemployee.xhtml" TITLE="Hourly" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="Flat::#flatemployee.xhtml" NAME="output2"
+    PATH="/flatemployee.xhtml" TARGET="rules:#flatemployee.xhtml"
+    TITLE="Flat" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#flatemployee.xhtml"
+  PATH="/flatemployee.xhtml" SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#admin.xhtml" PATH="/admin.xhtml"
+  SHAPE="272,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#hourlyemployee.xhtml"
+  PATH="/hourlyemployee.xhtml" SHAPE="272,209,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>
