@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,22 +18,18 @@ public class TimeCard {
 	// KEY
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private int timecardID;
 	
 	// FIELDS
-	private int employeeId;
+	@ManyToOne
+	@JoinColumn(name="employeeID",referencedColumnName="employeeID", nullable=false)
+	private Employee employee;
 	private Date date;
 	private int hoursWorked;
 	private boolean paid;
 	private String additionalInfo;
 	
 	// GETTERS, SETTERS
-	public int getEmployeeId() {
-		return employeeId;
-	}
-	public void setEmployeeId(int employeeId) {
-		this.employeeId = employeeId;
-	}
 	public Date getDate() {
 		return date;
 	}

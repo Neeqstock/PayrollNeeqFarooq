@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,10 +18,12 @@ public class SalesReceipt {
 	// KEY
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private int receiptID;
 	
 	// FIELDS
-	private int employeeId;
+	@ManyToOne
+	@JoinColumn(name="employeeID",referencedColumnName="employeeID", nullable=false)
+	private Employee employee;
 	private float amount;
 	private Date date;
 	private String company;
@@ -27,12 +31,6 @@ public class SalesReceipt {
 	private boolean paid;
 	
 	// GETTERS, SETTERS
-	public int getEmployeeId() {
-		return employeeId;
-	}
-	public void setEmployeeId(int employeeId) {
-		this.employeeId = employeeId;
-	}
 	public float getAmount() {
 		return amount;
 	}
