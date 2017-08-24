@@ -25,7 +25,7 @@ public class SalesReceipt {
 	@JoinColumn(name="employeeID",referencedColumnName="employeeID", nullable=false)
 	private Employee employee;
 	private float amount;
-	private Date date;
+	private Date receiptDate;
 	private String company;
 	private String additionalInfo;
 	private boolean paid;
@@ -37,11 +37,12 @@ public class SalesReceipt {
 	public void setAmount(float amount) {
 		this.amount = amount;
 	}
-	public Date getDate() {
-		return date;
+
+	public Date getReceiptDate() {
+		return receiptDate;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setReceiptDate(Date receiptDate) {
+		this.receiptDate = receiptDate;
 	}
 	public String getCompany() {
 		return company;
