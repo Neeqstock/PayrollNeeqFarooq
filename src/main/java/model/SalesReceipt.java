@@ -30,10 +30,23 @@ public class SalesReceipt {
 	private String additionalInfo;
 	private boolean paid;
 	
+	// CONSTRUCTOR
+	public SalesReceipt(Employee employee, float amount, Date receiptDate, String company) {
+		super();
+		this.employee = employee;
+		this.amount = amount;
+		this.receiptDate = receiptDate;
+		this.company = company;
+		
+		this.additionalInfo = "";
+		this.paid = false;
+	}
+	
 	// GETTERS, SETTERS
 	public float getAmount() {
 		return amount;
 	}
+	
 	public void setAmount(float amount) {
 		this.amount = amount;
 	}

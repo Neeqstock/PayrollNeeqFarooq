@@ -14,6 +14,13 @@ public class FlatEmployee extends Employee{
 	// FIELDS
 	private float salary;
 	private float commissionRate;
+	
+	// CONSTRUCTORS
+	public FlatEmployee(String name, String surname, String address, String contractType, String methodOfPayment, float salary, float commissionRate){
+		super(name, surname, address, contractType, methodOfPayment);
+		this.salary = salary;
+		this.commissionRate = commissionRate;
+	}
 
 	// GETTERS AND SETTERS
 	public float getSalary() {
