@@ -21,6 +21,7 @@ public class FlatEmployee extends Employee{
 		this.salary = salary;
 		this.commissionRate = commissionRate;
 	}
+	public FlatEmployee(){};
 
 	// GETTERS AND SETTERS
 	public float getSalary() {

@@ -50,6 +50,8 @@ public class Employee {
 		this.methodOfPayment = methodOfPayment;
 	}
 	
+	public Employee(){};
+	
 	// GETTERS, SETTERS
 	public String getName() {
 		return name;

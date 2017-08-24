@@ -41,6 +41,7 @@ public class SalesReceipt {
 		this.additionalInfo = "";
 		this.paid = false;
 	}
+	public SalesReceipt(){};
 	
 	// GETTERS, SETTERS
 	public float getAmount() {
