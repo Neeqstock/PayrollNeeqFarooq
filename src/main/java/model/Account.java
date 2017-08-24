@@ -27,6 +27,15 @@ public class Account {
 	@JoinColumn(name="employeeID", referencedColumnName="employeeID", nullable=true)
 	private Employee employee;
 	
+	// CONSTRUCTOR
+	public Account(boolean isAdmin, String userName, String password, Employee employee) {
+		super();
+		this.isAdmin = isAdmin;
+		this.userName = userName;
+		this.password = password;
+		this.employee = employee;
+	}
+	
 	// GETTERS, SETTERS
 	public boolean isAdmin() {
 		return isAdmin;
