@@ -22,6 +22,10 @@ public class SalesReceiptTest {
 
 	@Inject
 	DatabaseCleaner databaseCleaner;
+	@Inject
+	AdminController adminController;
+	@Inject
+	SalesReceiptController salesReceiptController;
 	
 	@Before
 	public void cleanDatabase(){
@@ -47,7 +51,7 @@ public class SalesReceiptTest {
 				PaymentMethods.pickup,
 				1000,
 				50);
-		AdminController.addEmployee(flatEmployee);
+		adminController.addEmployee(flatEmployee);
 		
 		// Create salesReceipt with values
 		SalesReceipt salesReceipt = new SalesReceipt(
@@ -55,12 +59,12 @@ public class SalesReceiptTest {
 				amount, 
 				receiptDate, 
 				company);
-		SalesReceiptController.addSalesReceipt(salesReceipt);
+		salesReceiptController.addSalesReceipt(salesReceipt);
 		
 		// See if salesReceipt has been added
 		ArrayList<SalesReceipt> salesReceiptList = SalesReceiptController.getSalesReceiptOfEmployee(flatEmployee);
 		for(SalesReceipt receipt : salesReceiptList){
-			if(receipt.getAmount() == amount && receiptDate.equals(receiptDate) && company.equalsIgnoreCase(company)){
+			if(receipt.getAmount() == amount && receipt.getReceiptDate().equals(receiptDate) && receipt.getCompany().equalsIgnoreCase(company)){
 				testOk = true;
 				break;
 			}
