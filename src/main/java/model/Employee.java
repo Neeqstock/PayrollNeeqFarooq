@@ -37,7 +37,7 @@ public class Employee {
 	private String methodOfPayment;
 	private String bankAccount;
 	private Date lastPaid;
-	private boolean union;
+	private boolean inUnion;
 	private float unionDues;
 	
 	// GETTERS, SETTERS
@@ -74,12 +74,6 @@ public class Employee {
 	public void setLastPaid(Date lastPaid) {
 		this.lastPaid = lastPaid;
 	}
-	public boolean isUnion() {
-		return union;
-	}
-	public void setUnion(boolean union) {
-		this.union = union;
-	}
 	public float getUnionDues() {
 		return unionDues;
 	}
@@ -91,6 +85,12 @@ public class Employee {
 	}
 	public void setBankAccount(String bankAccount) {
 		this.bankAccount = bankAccount;
+	}
+	public boolean isInUnion() {
+		return inUnion;
+	}
+	public void setInUnion(boolean inUnion) {
+		this.inUnion = inUnion;
 	}
 	
 	

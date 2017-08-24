@@ -24,20 +24,21 @@ public class TimeCard {
 	@ManyToOne
 	@JoinColumn(name="employeeID",referencedColumnName="employeeID", nullable=false)
 	private Employee employee;
-	private Date date;
+	private Date timeCardDate;
 	private int hoursWorked;
 	private boolean paid;
 	private String additionalInfo;
 	
 	// GETTERS, SETTERS
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
+
 	public int getHoursWorked() {
 		return hoursWorked;
+	}
+	public Date getTimeCardDate() {
+		return timeCardDate;
+	}
+	public void setTimeCardDate(Date timeCardDate) {
+		this.timeCardDate = timeCardDate;
 	}
 	public void setHoursWorked(int hoursWorked) {
 		this.hoursWorked = hoursWorked;

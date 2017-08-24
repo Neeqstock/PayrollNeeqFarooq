@@ -46,11 +46,5 @@ public class Account {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getEmployeeID() {
-		return employeeID;
-	}
-	public void setEmployeeID(int employeeID) {
-		this.employeeID = employeeID;
-	}
 
 }
