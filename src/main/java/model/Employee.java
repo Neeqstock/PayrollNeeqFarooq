@@ -40,6 +40,16 @@ public class Employee {
 	private boolean inUnion;
 	private float unionDues;
 	
+	// CONSTRUCTORS
+	public Employee(String name, String surname, String address, String contractType, String methodOfPayment){
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.address = address;
+		this.contractType = contractType;
+		this.methodOfPayment = methodOfPayment;
+	}
+	
 	// GETTERS, SETTERS
 	public String getName() {
 		return name;
@@ -61,6 +71,9 @@ public class Employee {
 	}
 	public String getContractType() {
 		return contractType;
+	}
+	public void setContractType(String contractType){
+		this.contractType = contractType;
 	}
 	public String getMethodOfPayment() {
 		return methodOfPayment;
