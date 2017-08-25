@@ -15,19 +15,10 @@ import javax.persistence.Table;
 
 public class TimeCard {
 	
-	
-	//Constractor
 	// KEY
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int timecardID;
-	
-	public TimeCard(Employee employee, Date timeCardDate, int hoursWorked) {
-		super();
-		this.employee = employee;
-		this.timeCardDate = timeCardDate;
-		this.hoursWorked = hoursWorked;
-	}
 	
 	// FIELDS
 	@ManyToOne
@@ -38,11 +29,23 @@ public class TimeCard {
 	private boolean paid;
 	private String additionalInfo;
 	
+	// CONSTRUCTOR
+	public TimeCard(Employee employee, Date timeCardDate, int hoursWorked) {
+		super();
+		this.employee = employee;
+		this.timeCardDate = timeCardDate;
+		this.hoursWorked = hoursWorked;
+		this.paid = false;
+	}
+	public TimeCard(){
+		super();
+	}
+	
 	// GETTERS, SETTERS
-
 	public int getHoursWorked() {
 		return hoursWorked;
 	}
+	
 	public Date getTimeCardDate() {
 		return timeCardDate;
 	}

@@ -1,6 +1,5 @@
 package model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,6 +34,7 @@ public class Account {
 		this.password = password;
 		this.employee = employee;
 	}
+	public Account(){};
 	
 	// GETTERS, SETTERS
 	public boolean isAdmin() {
