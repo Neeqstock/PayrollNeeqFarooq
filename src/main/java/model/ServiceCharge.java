@@ -28,8 +28,19 @@ public class ServiceCharge {
 	private float amount;
 	private boolean deducted;
 	
+	// CONSTRUCTOR
+	public ServiceCharge(Employee employee, Date chargeDate, float amount) {
+		super();
+		this.employee = employee;
+		this.chargeDate = chargeDate;
+		this.amount = amount;
+		this.deducted = false;
+	}
+	public ServiceCharge(){
+		super();
+	}
+	
 	// GETTERS, SETTERS
-
 	public float getAmount() {
 		return amount;
 	}
@@ -47,6 +58,9 @@ public class ServiceCharge {
 	}
 	public void setDeducted(boolean deducted) {
 		this.deducted = deducted;
+	}
+	public int getChargeID() {
+		return chargeID;
 	}
 	
 

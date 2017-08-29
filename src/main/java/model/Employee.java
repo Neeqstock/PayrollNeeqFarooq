@@ -50,6 +50,8 @@ public class Employee {
 		this.methodOfPayment = methodOfPayment;
 	}
 	
+	public Employee(){};
+	
 	// GETTERS, SETTERS
 	public String getName() {
 		return name;
@@ -104,6 +106,9 @@ public class Employee {
 	}
 	public void setInUnion(boolean inUnion) {
 		this.inUnion = inUnion;
+	}
+	public int getEmployeeID() {
+		return employeeID;
 	}
 	
 	

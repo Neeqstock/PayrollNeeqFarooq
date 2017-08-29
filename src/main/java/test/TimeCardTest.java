@@ -1,6 +1,8 @@
 package test;
 
-import java.util.List;
+
+import java.sql.Date;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -9,105 +11,68 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import controller.TimeCardController;
-import dao.EmployeeDAO;
-import dao.EmptyDB;
-import dao.TimeCardDao;
+import constants.ContractTypes;
+import constants.PaymentMethods;
+import dao.DatabaseCleaner;
 import junit.framework.Assert;
-import model.Employee;
-import model.HourlyEmployee;
+import model.Account;
+import model.FlatEmployee;
+import model.SalesReceipt;
 import model.TimeCard;
 
+/**
+ * 
+ * @author farooq
+ *
+ */
 @RunWith(Arquillian.class)
-public class TimeCardTest extends ArquillianTest {
+public class TimeCardTest {
 
+	@Inject	
+	DatabaseCleaner databaseCleaner;
 	@Inject
-	EmployeeDAO employeeDao;
+	AdminController adminController;
 	@Inject
 	TimeCardController timeCardController;
-	@Inject
-	TimeCardDao timeCardDao;
-	@Inject
-	EmptyDB emptyDB;
-
+	
 	@Before
-	public void cleanup() {
-		emptyDB.EmptyDatabase();
+	public void cleanDatabase(){
+		databaseCleaner.clean();
 	}
-
+	
 	@Test
-	public void submitTimeCardTest() {
-		// log in
-
-		int hoursWorked = 8;
-
-		// fill out time card
-		TimeCard timecard = new TimeCard();
-		timecard.setHours(hoursWorked);
-
-		HourlyEmployee emp = new HourlyEmployee("Mario", "Rossi", (float) 0);
-		employeeDao.add(emp);
+	public void addTimeCardTest(){
 		
-		timecard.setHourlyEmployee(emp);
-
-		boolean found = false;
-		try {
-			timeCardController.submit(timecard);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		Employee employee = employeeDao.findByName("Mario", "Rossi", "Hourly");
+		boolean testOk = false;
 		
-		// check in DB
-		List<TimeCard> timecards = timeCardDao.findAll(employee.getId());
-		for (TimeCard tc : timecards) {
-			if (tc.getHours() == hoursWorked &&
-					tc.getHourlyEmployee().getId() == employee.getId()) {
-				found = true;
+		
+		// Create employee
+		FlatEmployee employee = new FlatEmployee("tom", "logan", "pavia", ContractTypes.flat, PaymentMethods.mailed, 1200, 0);
+		adminController.addEmployee(employee);
+		
+		// Values
+		boolean isAdmin = false;
+		
+		Date timeCardDate = new Date(2017, 07, 01);
+		int hoursWorked =  8;
+		
+		// Create employee
+	
+		TimeCard tcard = new TimeCard(employee, timeCardDate, hoursWorked);
+		
+		accountController.addTimeCard(tcard);
+		
+		// See if salesReceipt has been added
+		ArrayList<TimeCard> timeCardList = timeCardController.getTimeCardsOfEmployee(employee);
+		for(TimeCard timeCard : timeCardList){
+			if(timeCard.getTimeCardDate().equals(timeCardDate) && timeCard.getHoursWorked() == hoursWorked)
+			{
+				testOk = true;
 				break;
 			}
+			
 		}
-
-		Assert.assertTrue("Single time card submitted", found);
-	}
-
-	@Test
-	public void cascadeRemovalOfTimeCards() {
-
-		HourlyEmployee employee = new HourlyEmployee("Marco", "Rossi", (float) 1);
-
-		employeeDao.add(employee);
+		Assert.assertTrue("addTimeCardTest - OK", testOk);
 		
-		// add a timecard
-		TimeCard timecard = new TimeCard();
-		timecard.setHours(2);
-		timecard.setHourlyEmployee(employee);
-		
-		try {
-			timeCardController.submit(timecard);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		Employee emp = employeeDao.findByName("Marco", "Rossi", "Hourly");
-
-		employeeDao.remove(employee);
-		// WE ASSUME Mario Rossi to be deleted
-
-		boolean found = false;
-		// check in DB
-		List<TimeCard> timecards = timeCardDao.findAll();
-
-		for (TimeCard tc : timecards) {
-			if (tc.getHourlyEmployee().getId() == emp.getId()) {
-				found = true;
-				break;
-			}
-		}
-
-		Assert.assertTrue("Time cards deleted", !found);
-
 	}
-
 }

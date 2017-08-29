@@ -13,13 +13,23 @@ public class HourlyEmployee extends Employee{
 	
 	// FIELDS
 	private float rate;
-
-	public float getSalary() {
+	
+	// CONSTRUCTOR
+	public HourlyEmployee(String name, String surname, String address, String contractType, String methodOfPayment,
+			float rate) {
+		super(name, surname, address, contractType, methodOfPayment);
+		this.rate = rate;
+	}
+	public HourlyEmployee(){
+		super();
+	}
+	
+	public float getRate() {
 		return rate;
 	}
 
-	public void setSalary(float salary) {
-		this.rate = salary;
+	public void setSalary(float rate) {
+		this.rate = rate;
 	}
 	
 }

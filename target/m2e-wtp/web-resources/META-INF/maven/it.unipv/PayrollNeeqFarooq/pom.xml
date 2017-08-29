@@ -8,7 +8,7 @@
 	<name>PayrollNeeqFarooq</name>
 
 	<build>
-	
+
 		<!-- PLUGINS -->
 		<plugins>
 			<plugin>
@@ -52,7 +52,7 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<!-- DEPENDENCIES -->	
+	<!-- DEPENDENCIES -->
 	<dependencies>
 
 		<!-- For Arquillian -->
@@ -157,22 +157,28 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- JodaTime -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.9.9</version>
+		</dependency>
 	</dependencies>
-	
+
 	<!-- ARQUILLIAN TEST PROFILES -->
 	<profiles>
 		<profile>
 			<id>arquillian-jbossas-managed</id>
-			
+
 			<dependencies>
-				<dependency>	
+				<dependency>
 					<artifactId>wildfly-spec-api</artifactId>
 					<version>10.0.0.Final</version>
 
 					<type>pom</type>
 					<scope>provided</scope>
 				</dependency>
-				
+
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-arquillian-container-managed</artifactId>
@@ -187,11 +193,11 @@
 				</dependency>
 			</dependencies>
 		</profile>
-		
+
 		<profile>
 			<id>arquillian-jbossas-remote</id>
 			<dependencies>
-		
+
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-spec-api</artifactId>
@@ -199,7 +205,7 @@
 					<type>pom</type>
 					<scope>provided</scope>
 				</dependency>
-		
+
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-arquillian-container-remote</artifactId>

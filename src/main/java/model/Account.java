@@ -1,6 +1,5 @@
 package model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +26,16 @@ public class Account {
 	@JoinColumn(name="employeeID", referencedColumnName="employeeID", nullable=true)
 	private Employee employee;
 	
+	// CONSTRUCTOR
+	public Account(boolean isAdmin, String userName, String password, Employee employee) {
+		super();
+		this.isAdmin = isAdmin;
+		this.userName = userName;
+		this.password = password;
+		this.employee = employee;
+	}
+	public Account(){};
+	
 	// GETTERS, SETTERS
 	public boolean isAdmin() {
 		return isAdmin;
@@ -45,6 +54,9 @@ public class Account {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public int getAccountID() {
+		return accountID;
 	}
 
 }
