@@ -24,14 +24,12 @@ public class HourlyEmployee extends Employee{
 		super();
 	}
 	
-	public float getSalary() {
+	public float getRate() {
 		return rate;
 	}
 
-
-
-	public void setSalary(float salary) {
-		this.rate = salary;
+	public void setSalary(float rate) {
+		this.rate = rate;
 	}
 	
 }

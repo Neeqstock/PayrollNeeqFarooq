@@ -28,10 +28,11 @@ public class Payment {
 	private Employee employee;
 	
 	// CONSTRUCTOR
-	public Payment(Date paymentDate, float paymentAmount) {
+	public Payment(Date paymentDate, float paymentAmount, Employee employee) {
 		super();
 		this.paymentDate = paymentDate;
 		this.paymentAmount = paymentAmount;
+		this.employee = employee;
 	}
 	public Payment(){}
 
@@ -47,7 +48,11 @@ public class Payment {
 	}
 	public void setPaymentAmount(float paymentAmount) {
 		this.paymentAmount = paymentAmount;
-	};
+	}
+	public int getPaymentID() {
+		return paymentID;
+	}
+	
 
 
 }

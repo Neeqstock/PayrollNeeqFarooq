@@ -1,7 +1,7 @@
 package test;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,6 +12,12 @@ import org.junit.runner.RunWith;
 
 import constants.ContractTypes;
 import constants.PaymentMethods;
+import control.AdminControl;
+import control.PaymentControl;
+import control.PayrollControl;
+import control.SalesReceiptControl;
+import control.ServiceChargeControl;
+import control.TimeCardControl;
 import dao.DatabaseCleaner;
 import junit.framework.Assert;
 import model.FlatEmployee;
@@ -32,13 +38,24 @@ public class PayrollTest {
 	@Inject
 	DatabaseCleaner databaseCleaner;
 	@Inject
-	bbb; // TODO
+	AdminControl adminControl;
+	@Inject
+	PayrollControl payrollControl;
+	@Inject
+	SalesReceiptControl salesReceiptControl;
+	@Inject
+	ServiceChargeControl serviceChargeControl;
+	@Inject
+	TimeCardControl timeCardControl;
+	@Inject
+	PaymentControl paymentControl;
 	
 	@Before
 	public void cleanDatabase(){
 		databaseCleaner.clean();
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void runPayrollTest(){
 		
@@ -52,34 +69,34 @@ public class PayrollTest {
 			flatEmployee.setBankAccount("ABC123");
 		HourlyEmployee hourlyEmployee = new HourlyEmployee("ImAHourlyEmployee", "ImASurname", "ImAnotherAddress", ContractTypes.hourly, PaymentMethods.mailed, 10);
 		
-		adminController.addEmployee(flatEmployee);
-		adminController.addEmployee(hourlyEmployee);
+		adminControl.addFlatEmployee(flatEmployee);
+		adminControl.addHourlyEmployee(hourlyEmployee);
 		
 		// Create a salesReceipt
 		SalesReceipt salesReceipt = new SalesReceipt(flatEmployee, 100, new Date(2017, 7, 5), "RandomCompany");
-		salesReceiptController.addSalesReceipt(salesReceipt);
+		salesReceiptControl.addSalesReceipt(salesReceipt);
 		
 		// Create a serviceCharge (for the flatEmployee)
 		ServiceCharge serviceCharge = new ServiceCharge(flatEmployee, new Date(2017, 7, 10), 50);
-		serviceChargeController.addServiceCharge(serviceCharge);
+		serviceChargeControl.addServiceCharge(serviceCharge);
 		
 		// Create a timeCard (for the hourlyEmployee)
 		TimeCard timeCard = new TimeCard(hourlyEmployee, new Date(2017, 7, 5), 5);
-		timeCardController.addTimeCard(timeCard);
+		timeCardControl.addTimeCard(timeCard);
 		
 		// Run the payroll
-		payrollController.runPayroll(new Date(2017, 8, 1));
+		payrollControl.runPayroll(new Date(2017, 8, 1));
 		
 		// Expected values
 		float flatEmployeeExpectedPayment = 700;
-		float hourlyEmployeePayment = 50;
+		float hourlyEmployeeExpectedPayment = 50;
 		
 		// See if salesReceipt has been added
-		ArrayList<Payment> paymentListFlat = paymentController.getPaymentsOfEmployee(flatEmployee);
+		List<Payment> paymentListFlat = paymentControl.getPaymentsOfEmployee(flatEmployee);
 		if(paymentListFlat.get(0).getPaymentAmount() == flatEmployeeExpectedPayment){
 			testFlatOk = true;
 		}
-		ArrayList<Payment> paymentListHourly = paymentController.getPaymentsOfEmployee(hourlyEmployee);
+		List<Payment> paymentListHourly = paymentControl.getPaymentsOfEmployee(hourlyEmployee);
 		if(paymentListHourly.get(0).getPaymentAmount() == hourlyEmployeeExpectedPayment){
 			testHourlyOk = true;
 		}

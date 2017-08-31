@@ -1,7 +1,7 @@
 package test;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,12 +12,12 @@ import org.junit.runner.RunWith;
 
 import constants.ContractTypes;
 import constants.PaymentMethods;
+import control.AdminControl;
+import control.ServiceChargeControl;
 import dao.DatabaseCleaner;
 import junit.framework.Assert;
 import model.FlatEmployee;
-import model.SalesReceipt;
 import model.ServiceCharge;
-import model.TimeCard;
 
 @RunWith(Arquillian.class)
 public class ServiceChargeTest {
@@ -25,15 +25,16 @@ public class ServiceChargeTest {
 	@Inject
 	DatabaseCleaner databaseCleaner;
 	@Inject
-	AdminController adminController;
+	AdminControl adminControl;
 	@Inject 
-	ServiceChargeController serviceChargeController;
+	ServiceChargeControl serviceChargeControl;
 	
 	@Before
 	public void cleanDatabase(){
 		databaseCleaner.clean();
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void addServiceChargeTest(){
 		
@@ -49,7 +50,7 @@ public class ServiceChargeTest {
 						1000,
 						50);
 						flatEmployee.setInUnion(true);
-				adminController.addEmployee(flatEmployee);
+				adminControl.addFlatEmployee(flatEmployee);
 		
 		// Values
 		Date chargeDate = new Date(2017, 7, 1);
@@ -58,10 +59,10 @@ public class ServiceChargeTest {
 		// Create serviceCharge with values
 		ServiceCharge serviceCharge = new ServiceCharge(flatEmployee, chargeDate, amount);
 
-		serviceChargeController.addServiceCharge(serviceCharge);
+		serviceChargeControl.addServiceCharge(serviceCharge);
 		
 		// See if salesReceipt has been added
-		ArrayList<ServiceCharge> serviceChargeList = serviceChargeController.getServiceChargesOfEmployee(flatEmployee);
+		List<ServiceCharge> serviceChargeList = serviceChargeControl.getServiceChargesOfEmployee(flatEmployee);
 		for(ServiceCharge charge : serviceChargeList){
 			if(charge.getChargeDate().equals(chargeDate) && charge.getAmount() == amount){
 				testOk = true;

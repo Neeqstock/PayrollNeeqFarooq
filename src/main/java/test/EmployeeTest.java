@@ -1,7 +1,6 @@
 package test;
 
-import java.sql.Date;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,11 +11,11 @@ import org.junit.runner.RunWith;
 
 import constants.ContractTypes;
 import constants.PaymentMethods;
+import control.AdminControl;
 import dao.DatabaseCleaner;
 import junit.framework.Assert;
 import model.FlatEmployee;
 import model.HourlyEmployee;
-import model.SalesReceipt;
 
 @RunWith(Arquillian.class)
 public class EmployeeTest {
@@ -24,7 +23,7 @@ public class EmployeeTest {
 	@Inject
 	DatabaseCleaner databaseCleaner;
 	@Inject
-	AdminController adminController;
+	AdminControl adminControl;
 
 	@Before
 	public void cleanDatabase() {
@@ -54,10 +53,10 @@ public class EmployeeTest {
 				paymentMethod,
 				salary,
 				commissionRate);
-		adminController.addEmployee(flatEmployee);
+		adminControl.addFlatEmployee(flatEmployee);
 		
 		// See if Employee has been added
-		ArrayList<FlatEmployee> flatEmployeeList = adminController.getFlatEmployees();
+		List<FlatEmployee> flatEmployeeList = adminControl.getFlatEmployees();
 		for(FlatEmployee employee : flatEmployeeList){
 			if(employee.getName().equalsIgnoreCase(name) && 
 					employee.getSurname().equalsIgnoreCase(surname) && 
@@ -89,10 +88,10 @@ public class EmployeeTest {
 		
 		// Create employee
 		HourlyEmployee hourlyEmployee = new HourlyEmployee(name, surname, address, contractType, paymentMethod, rate);
-		adminController.addEmployee(hourlyEmployee);
+		adminControl.addHourlyEmployee(hourlyEmployee);
 		
 		// See if Employee has been added
-		ArrayList<HourlyEmployee> hourlyEmployeeList = adminController.getHourlyEmployees();
+		List<HourlyEmployee> hourlyEmployeeList = adminControl.getHourlyEmployees();
 		for(HourlyEmployee employee : hourlyEmployeeList){
 			if(employee.getName().equalsIgnoreCase(name) && 
 					employee.getSurname().equalsIgnoreCase(surname) && 
@@ -131,13 +130,13 @@ public class EmployeeTest {
 				paymentMethod,
 				salary,
 				commissionRate);
-		adminController.addEmployee(flatEmployee);
+		adminControl.addFlatEmployee(flatEmployee);
 		
 		// Remove employee
-		adminController.removeEmployee(flatEmployee);
+		adminControl.removeFlatEmployee(flatEmployee);
 		
 		// See if Employee has been removed
-		ArrayList<FlatEmployee> flatEmployeeList = adminController.getFlatEmployees();
+		List<FlatEmployee> flatEmployeeList = adminControl.getFlatEmployees();
 		for(FlatEmployee employee : flatEmployeeList){
 			if(employee.getName().equalsIgnoreCase(name) && 
 					employee.getSurname().equalsIgnoreCase(surname) && 
@@ -177,26 +176,26 @@ public class EmployeeTest {
 				paymentMethod,
 				salary,
 				commissionRate);
-		adminController.addEmployee(flatEmployee);
+		adminControl.addFlatEmployee(flatEmployee);
 		
 		// New values
 		String newName = "NewName";
 		String newSurname = "NewTestSurname";
 		String newAddress = "NewTestAddress";
 		String newPaymentMethod = PaymentMethods.mailed;
+		String newBankAccount = "";
 		float newSalary = 2000;
 		float newCommissionRate = 30;
 		
-		adminController.editFlatEmployee(flatEmployee, newName, newSurname, newAddress, newPaymentMethod, newSalary, newCommissionRate);
+		adminControl.editFlatEmployee(flatEmployee, newName, newSurname, newAddress, newPaymentMethod, newBankAccount, newSalary, newCommissionRate);
 		
 		// See if Employee has been changed
-		ArrayList<FlatEmployee> flatEmployeeList = adminController.getFlatEmployees();
+		List<FlatEmployee> flatEmployeeList = adminControl.getFlatEmployees();
 		// Check
 		for(FlatEmployee employee : flatEmployeeList){
 			if(employee.getName().equalsIgnoreCase(newName) && 
 					employee.getSurname().equalsIgnoreCase(newSurname) && 
 					employee.getAddress().equalsIgnoreCase(newAddress) && 
-					employee.getContractType().equalsIgnoreCase(newContractType) && 
 					employee.getMethodOfPayment().equalsIgnoreCase(newPaymentMethod) && 
 					employee.getSalary() == newSalary && 
 					employee.getCommissionRate() == newCommissionRate){

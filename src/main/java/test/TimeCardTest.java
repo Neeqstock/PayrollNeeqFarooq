@@ -2,7 +2,7 @@ package test;
 
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -13,11 +13,11 @@ import org.junit.runner.RunWith;
 
 import constants.ContractTypes;
 import constants.PaymentMethods;
+import control.AdminControl;
+import control.TimeCardControl;
 import dao.DatabaseCleaner;
 import junit.framework.Assert;
-import model.Account;
-import model.FlatEmployee;
-import model.SalesReceipt;
+import model.HourlyEmployee;
 import model.TimeCard;
 
 /**
@@ -31,15 +31,16 @@ public class TimeCardTest {
 	@Inject	
 	DatabaseCleaner databaseCleaner;
 	@Inject
-	AdminController adminController;
+	AdminControl adminControl;
 	@Inject
-	TimeCardController timeCardController;
+	TimeCardControl timeCardControl;
 	
 	@Before
 	public void cleanDatabase(){
 		databaseCleaner.clean();
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void addTimeCardTest(){
 		
@@ -47,12 +48,10 @@ public class TimeCardTest {
 		
 		
 		// Create employee
-		FlatEmployee employee = new FlatEmployee("tom", "logan", "pavia", ContractTypes.flat, PaymentMethods.mailed, 1200, 0);
-		adminController.addEmployee(employee);
+		HourlyEmployee employee = new HourlyEmployee("tom", "logan", "pavia", ContractTypes.hourly, PaymentMethods.pickup, 10);
+		adminControl.addHourlyEmployee(employee);
 		
 		// Values
-		boolean isAdmin = false;
-		
 		Date timeCardDate = new Date(2017, 07, 01);
 		int hoursWorked =  8;
 		
@@ -60,10 +59,10 @@ public class TimeCardTest {
 	
 		TimeCard tcard = new TimeCard(employee, timeCardDate, hoursWorked);
 		
-		accountController.addTimeCard(tcard);
+		timeCardControl.addTimeCard(tcard);
 		
 		// See if salesReceipt has been added
-		ArrayList<TimeCard> timeCardList = timeCardController.getTimeCardsOfEmployee(employee);
+		List<TimeCard> timeCardList = timeCardControl.getTimeCardsOfEmployee(employee);
 		for(TimeCard timeCard : timeCardList){
 			if(timeCard.getTimeCardDate().equals(timeCardDate) && timeCard.getHoursWorked() == hoursWorked)
 			{

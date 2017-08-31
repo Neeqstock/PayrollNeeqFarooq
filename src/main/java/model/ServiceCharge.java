@@ -59,6 +59,9 @@ public class ServiceCharge {
 	public void setDeducted(boolean deducted) {
 		this.deducted = deducted;
 	}
+	public int getChargeID() {
+		return chargeID;
+	}
 	
 
 

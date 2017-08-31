@@ -107,6 +107,9 @@ public class Employee {
 	public void setInUnion(boolean inUnion) {
 		this.inUnion = inUnion;
 	}
+	public int getEmployeeID() {
+		return employeeID;
+	}
 	
 	
 }
