@@ -1,7 +1,7 @@
 package test;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 
 import constants.ContractTypes;
 import constants.PaymentMethods;
+import control.AdminControl;
+import control.SalesReceiptControl;
 import dao.DatabaseCleaner;
 import junit.framework.Assert;
 import model.FlatEmployee;
@@ -23,15 +25,16 @@ public class SalesReceiptTest {
 	@Inject
 	DatabaseCleaner databaseCleaner;
 	@Inject
-	AdminController adminController;
+	AdminControl adminControl;
 	@Inject
-	SalesReceiptController salesReceiptController;
+	SalesReceiptControl salesReceiptControl;
 	
 	@Before
 	public void cleanDatabase(){
 		databaseCleaner.clean();
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void addSalesReceiptTest(){
 		
@@ -51,7 +54,7 @@ public class SalesReceiptTest {
 				PaymentMethods.pickup,
 				1000,
 				50);
-		adminController.addEmployee(flatEmployee);
+		adminControl.addFlatEmployee(flatEmployee);
 		
 		// Create salesReceipt with values
 		SalesReceipt salesReceipt = new SalesReceipt(
@@ -59,10 +62,10 @@ public class SalesReceiptTest {
 				amount, 
 				receiptDate, 
 				company);
-		salesReceiptController.addSalesReceipt(salesReceipt);
+		salesReceiptControl.addSalesReceipt(salesReceipt);
 		
 		// See if salesReceipt has been added
-		ArrayList<SalesReceipt> salesReceiptList = SalesReceiptController.getSalesReceiptOfEmployee(flatEmployee);
+		List<SalesReceipt> salesReceiptList = salesReceiptControl.getSalesReceiptsOfEmployee(flatEmployee);
 		for(SalesReceipt receipt : salesReceiptList){
 			if(receipt.getAmount() == amount && receipt.getReceiptDate().equals(receiptDate) && receipt.getCompany().equalsIgnoreCase(company)){
 				testOk = true;

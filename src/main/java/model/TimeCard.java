@@ -67,6 +67,9 @@ public class TimeCard {
 	public void setAdditionalInfo(String additionalInfo) {
 		this.additionalInfo = additionalInfo;
 	}
+	public int getTimecardID() {
+		return timecardID;
+	}
 
 
 }

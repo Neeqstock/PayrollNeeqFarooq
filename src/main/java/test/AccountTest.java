@@ -1,6 +1,6 @@
 package test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -9,11 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import control.AccountControl;
+import control.AdminControl;
 import dao.DatabaseCleaner;
 import junit.framework.Assert;
 import model.Account;
 import model.FlatEmployee;
-import model.SalesReceipt;
 
 /**
  * 
@@ -26,6 +27,10 @@ public class AccountTest {
 
 	@Inject
 	DatabaseCleaner databaseCleaner;
+	@Inject
+	AdminControl adminControl;
+	@Inject
+	AccountControl accountControl;
 	
 	@Before
 	public void cleanDatabase(){
@@ -40,7 +45,7 @@ public class AccountTest {
 		
 		// Create employee
 		FlatEmployee employee = new FlatEmployee("john", "sena", "pavia", "Flat", "Mailed", 1300, 0);
-		adminController.addEmployee(employee);
+		adminControl.addFlatEmployee(employee);
 		
 		// Values
 		boolean isAdmin = false;
@@ -50,10 +55,10 @@ public class AccountTest {
 		// Create employee
 		Account account = new Account(isAdmin, username, password, employee);
 		
-		accountController.addAccount(account);
+		accountControl.addAccount(account);
 		
 		// See if salesReceipt has been added
-		ArrayList<Account> accountList = accountController.getAccounts();
+		List<Account> accountList = accountControl.getAccounts();
 		for(Account accountCheck : accountList){
 			if(accountCheck.getUserName().equalsIgnoreCase(username) && accountCheck.isAdmin() == isAdmin && accountCheck.getPassword().equalsIgnoreCase(password))
 			{

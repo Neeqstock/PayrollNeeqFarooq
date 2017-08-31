@@ -76,6 +76,9 @@ public class SalesReceipt {
 	public void setPaid(boolean paid) {
 		this.paid = paid;
 	}
+	public int getReceiptID() {
+		return receiptID;
+	}
 	
 
 

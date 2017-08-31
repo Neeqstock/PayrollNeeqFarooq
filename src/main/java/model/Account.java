@@ -55,5 +55,8 @@ public class Account {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public int getAccountID() {
+		return accountID;
+	}
 
 }
