@@ -11,66 +11,111 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 import control.AccountControl;
+import tools.LoginEntity;
 
+/**
+ * Logic for the login.xhtml view.
+ * 
+ * @author neeqstock
+ *
+ */
 @SessionScoped
 @ManagedBean
 @Named("loginBean")
 public class LoginBean implements Serializable {
 
 	private static final long serialVersionUID = -173093910133825075L;
-	
+
 	@Inject
 	AccountControl accountControl;
-	
-	String username;
-	String password;
+
+	private int accountID;
+	private String username;
+	private String password;
+	private String contractType;
+	private int employeeID;
 
 	@PostConstruct
-	public void init() {}
+	public void init() {
+		contractType = "";
+	}
 
-	/**
-	 * passes data to the controller
-	 * @return Usertype validated or null in case of error
-	 */
 	public String validate() {
 		try {
 			LoginEntity loginEntity = accountControl.validate(username, password);
-		
-			FacesContext context = FacesContext.getCurrentInstance();
-			HttpSession session;
-			session = (HttpSession) context.getExternalContext().getSession(true);
 			
-			session.setAttribute("username", username);
-			
-			return loginEntity.getContractType();
+			if (loginEntity!=null){
+				contractType = loginEntity.getContractType();
+				accountID = loginEntity.getAccountID();
+				employeeID = loginEntity.getEmployeeID();
+				
+				FacesContext context = FacesContext.getCurrentInstance();
+				
+				HttpSession session;
+				session = (HttpSession) context.getExternalContext().getSession(true);
+				session.setAttribute("employeeID", employeeID);
+
+				System.out.println(loginEntity.getContractType()); // TEST
+
+				if (loginEntity.isAdmin()) {
+					return "Admin";
+				} else {
+					return loginEntity.getContractType();
+				}
+			}
+			return null;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
-	public String logout(){
+
+	public String logout() {
 		try {
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session;
-		session = (HttpSession) context.getExternalContext().getSession(true);
-				
-		session.invalidate();
-		
+			FacesContext context = FacesContext.getCurrentInstance();
+			HttpSession session;
+			session = (HttpSession) context.getExternalContext().getSession(true);
+
+			session.invalidate();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return "login";
 	}
 	
+	public String continueAsAdmin(){
+		return "Admin";
+	}
 	
-	public int getEmpid() {
-		return empid;
+	public String continueAsEmployee(){
+		return contractType;
 	}
 
-	public void setEmpid(int empid) {
-		this.empid = empid;
+	public int getAccountID() {
+		return accountID;
+	}
+
+	public void setAccountID(int accountID) {
+		this.accountID = accountID;
+	}
+
+	public String getContractType() {
+		return contractType;
+	}
+
+	public void setContractType(String contractType) {
+		this.contractType = contractType;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -81,12 +126,4 @@ public class LoginBean implements Serializable {
 		this.password = password;
 	}
 
-	public String getUserType() {
-		return userType;
-	}
-
-	public void setUserType(String userType) {
-		this.userType = userType;
-	}
-	
 }

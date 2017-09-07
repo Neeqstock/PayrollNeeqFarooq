@@ -17,8 +17,14 @@ import junit.framework.Assert;
 import model.FlatEmployee;
 import model.HourlyEmployee;
 
+/**
+ * Tests various functions on the Employee entity.
+ * 
+ * @author neeqstock
+ *
+ */
 @RunWith(Arquillian.class)
-public class EmployeeTest {
+public class EmployeeTest extends ArquillianTest {
 
 	@Inject
 	DatabaseCleaner databaseCleaner;
@@ -187,7 +193,15 @@ public class EmployeeTest {
 		float newSalary = 2000;
 		float newCommissionRate = 30;
 		
-		adminControl.editFlatEmployee(flatEmployee, newName, newSurname, newAddress, newPaymentMethod, newBankAccount, newSalary, newCommissionRate);
+		flatEmployee.setName(newName);
+		flatEmployee.setSurname(newSurname);
+		flatEmployee.setAddress(newAddress);
+		flatEmployee.setMethodOfPayment(newPaymentMethod);
+		flatEmployee.setBankAccount(newBankAccount);
+		flatEmployee.setSalary(newSalary);
+		flatEmployee.setCommissionRate(newCommissionRate);
+		
+		adminControl.updateFlatEmployee(flatEmployee);
 		
 		// See if Employee has been changed
 		List<FlatEmployee> flatEmployeeList = adminControl.getFlatEmployees();

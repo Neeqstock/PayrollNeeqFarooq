@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import constants.ContractTypes;
 import constants.PaymentMethods;
 import control.AdminControl;
-import control.PaymentControl;
 import control.PayrollControl;
 import control.SalesReceiptControl;
 import control.ServiceChargeControl;
@@ -28,7 +27,8 @@ import model.ServiceCharge;
 import model.TimeCard;
 
 /**
- * Test for the whole payroll system (business calculations)
+ * Test for the whole payroll system (business calculations).
+ * 
  * @author neeqstock
  *
  */
@@ -47,63 +47,62 @@ public class PayrollTest {
 	ServiceChargeControl serviceChargeControl;
 	@Inject
 	TimeCardControl timeCardControl;
-	@Inject
-	PaymentControl paymentControl;
-	
+
 	@Before
-	public void cleanDatabase(){
+	public void cleanDatabase() {
 		databaseCleaner.clean();
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Test
-	public void runPayrollTest(){
-		
+	public void runPayrollTest() {
+
 		boolean testFlatOk = false;
 		boolean testHourlyOk = false;
-		
+
 		// Create employees
-		FlatEmployee flatEmployee = new FlatEmployee("ImAFlatEmployee", "ImTheSurname", "ACity", ContractTypes.flat, PaymentMethods.bank, 1000, 50);
-			flatEmployee.setInUnion(true);
-			flatEmployee.setUnionDues(50);
-			flatEmployee.setBankAccount("ABC123");
-		HourlyEmployee hourlyEmployee = new HourlyEmployee("ImAHourlyEmployee", "ImASurname", "ImAnotherAddress", ContractTypes.hourly, PaymentMethods.mailed, 10);
-		
+		FlatEmployee flatEmployee = new FlatEmployee("ImAFlatEmployee", "ImTheSurname", "ACity", ContractTypes.flat,
+				PaymentMethods.bank, 1000, 50);
+		flatEmployee.setInUnion(true);
+		flatEmployee.setUnionDues(50);
+		flatEmployee.setBankAccount("ABC123");
+		HourlyEmployee hourlyEmployee = new HourlyEmployee("ImAHourlyEmployee", "ImASurname", "ImAnotherAddress",
+				ContractTypes.hourly, PaymentMethods.mailed, 10);
+
 		adminControl.addFlatEmployee(flatEmployee);
 		adminControl.addHourlyEmployee(hourlyEmployee);
-		
+
 		// Create a salesReceipt
 		SalesReceipt salesReceipt = new SalesReceipt(flatEmployee, 100, new Date(2017, 7, 5), "RandomCompany");
 		salesReceiptControl.addSalesReceipt(salesReceipt);
-		
+
 		// Create a serviceCharge (for the flatEmployee)
 		ServiceCharge serviceCharge = new ServiceCharge(flatEmployee, new Date(2017, 7, 10), 50);
 		serviceChargeControl.addServiceCharge(serviceCharge);
-		
+
 		// Create a timeCard (for the hourlyEmployee)
 		TimeCard timeCard = new TimeCard(hourlyEmployee, new Date(2017, 7, 5), 5);
 		timeCardControl.addTimeCard(timeCard);
-		
+
 		// Run the payroll
 		payrollControl.runPayroll(new Date(2017, 8, 1));
-		
+
 		// Expected values
 		float flatEmployeeExpectedPayment = 700;
 		float hourlyEmployeeExpectedPayment = 50;
-		
+
 		// See if salesReceipt has been added
-		List<Payment> paymentListFlat = paymentControl.getPaymentsOfEmployee(flatEmployee);
-		if(paymentListFlat.get(0).getPaymentAmount() == flatEmployeeExpectedPayment){
+		List<Payment> paymentListFlat = payrollControl.getPayments(flatEmployee);
+		if (paymentListFlat.get(0).getPaymentAmount() == flatEmployeeExpectedPayment) {
 			testFlatOk = true;
 		}
-		List<Payment> paymentListHourly = paymentControl.getPaymentsOfEmployee(hourlyEmployee);
-		if(paymentListHourly.get(0).getPaymentAmount() == hourlyEmployeeExpectedPayment){
+		List<Payment> paymentListHourly = payrollControl.getPayments(hourlyEmployee);
+		if (paymentListHourly.get(0).getPaymentAmount() == hourlyEmployeeExpectedPayment) {
 			testHourlyOk = true;
 		}
 
 		Assert.assertTrue("payrollFlatTest - OK", testFlatOk);
 		Assert.assertTrue("payrollHourlyTest - OK", testHourlyOk);
-		
+
 	}
 }
-

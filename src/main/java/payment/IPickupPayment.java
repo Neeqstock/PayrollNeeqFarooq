@@ -1,5 +1,11 @@
 package payment;
 
+/**
+ * An interface for abstracting on how a payment by pickup is effectively made.
+ * 
+ * @author neeqstock
+ *
+ */
 public interface IPickupPayment {
 
 	public void payFlatEmployee(String name, String surname, String address, float totalPayment, float flatPayments,

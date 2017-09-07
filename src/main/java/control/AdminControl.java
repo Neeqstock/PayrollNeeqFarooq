@@ -12,6 +12,12 @@ import dao.EmployeeDAO;
 import model.FlatEmployee;
 import model.HourlyEmployee;
 
+/**
+ * Controls the various actions available for the administrator's interface.
+ * 
+ * @author neeqstock
+ *
+ */
 @Stateless
 public class AdminControl {
 	
@@ -44,10 +50,17 @@ public class AdminControl {
 	public void removeFlatEmployee(FlatEmployee flatEmployee) {
 		employeeDAO.purgeFlatEmployee(flatEmployee);
 	}
+	
+	public void updateFlatEmployee(FlatEmployee flatEmployee){
+		employeeDAO.updateFlatEmployee(flatEmployee);
+	}
+	
+	public void updateHourlyEmployee(HourlyEmployee hourlyEmployee){
+		employeeDAO.updateHourlyEmployee(hourlyEmployee);
+	}
 
-	public void editFlatEmployee(FlatEmployee flatEmployee, String newName, String newSurname, String newAddress,
-			String newPaymentMethod, String newBankAccount, float newSalary, float newCommissionRate) {
-		employeeDAO.editFlatEmployee(flatEmployee, newName, newSurname, newAddress, newPaymentMethod, newBankAccount, newSalary, newCommissionRate);
+	public void removeHourlyEmployee(HourlyEmployee hourlyEmployee) {
+		employeeDAO.purgeHourlyEmployee(hourlyEmployee);
 	}
 
 }

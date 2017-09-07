@@ -10,25 +10,30 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * An entity that describes a timecard, submittable by an hourly employee.
+ * 
+ * @author neeqstock
+ *
+ */
 @Entity
 @Table(name = "TimeCard")
-
 public class TimeCard {
-	
+
 	// KEY
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int timecardID;
-	
+
 	// FIELDS
 	@ManyToOne
-	@JoinColumn(name="employeeID",referencedColumnName="employeeID", nullable=false)
+	@JoinColumn(name = "employeeID", referencedColumnName = "employeeID", nullable = false)
 	private Employee employee;
 	private Date timeCardDate;
 	private int hoursWorked;
 	private boolean paid;
 	private String additionalInfo;
-	
+
 	// CONSTRUCTOR
 	public TimeCard(Employee employee, Date timeCardDate, int hoursWorked) {
 		super();
@@ -37,39 +42,54 @@ public class TimeCard {
 		this.hoursWorked = hoursWorked;
 		this.paid = false;
 	}
-	public TimeCard(){
+
+	public TimeCard() {
 		super();
 	}
-	
+
 	// GETTERS, SETTERS
 	public int getHoursWorked() {
 		return hoursWorked;
 	}
-	
+
 	public Date getTimeCardDate() {
 		return timeCardDate;
 	}
+
 	public void setTimeCardDate(Date timeCardDate) {
 		this.timeCardDate = timeCardDate;
 	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
 	public void setHoursWorked(int hoursWorked) {
 		this.hoursWorked = hoursWorked;
 	}
+
 	public boolean isPaid() {
 		return paid;
 	}
+
 	public void setPaid(boolean paid) {
 		this.paid = paid;
 	}
+
 	public String getAdditionalInfo() {
 		return additionalInfo;
 	}
+
 	public void setAdditionalInfo(String additionalInfo) {
 		this.additionalInfo = additionalInfo;
 	}
+
 	public int getTimecardID() {
 		return timecardID;
 	}
-
 
 }

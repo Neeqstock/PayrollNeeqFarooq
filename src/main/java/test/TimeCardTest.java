@@ -21,6 +21,7 @@ import model.HourlyEmployee;
 import model.TimeCard;
 
 /**
+ * Tests various functions on the TimeCard entity.
  * 
  * @author farooq
  *

@@ -9,6 +9,12 @@ import javax.persistence.PersistenceContext;
 import model.Employee;
 import model.ServiceCharge;
 
+/**
+ * Database management for the ServiceCharge entity.
+ * 
+ * @author neeqstock
+ *
+ */
 @Stateless
 public class ServiceChargeDAO {
 	
@@ -16,7 +22,7 @@ public class ServiceChargeDAO {
 	EntityManager entityManager;
 
 	public List<ServiceCharge> getServiceChargesOfEmployee(Employee employee) {
-		List<ServiceCharge> serviceCharges = entityManager.createQuery("SELECT * FROM ServiceCharge WHERE employeeID ='" + employee.getEmployeeID() + "';", ServiceCharge.class).getResultList();
+		List<ServiceCharge> serviceCharges = entityManager.createQuery("SELECT s FROM ServiceCharge s WHERE employeeID ='" + employee.getEmployeeID() + "'", ServiceCharge.class).getResultList();
 		return serviceCharges;
 	}
 
@@ -28,6 +34,17 @@ public class ServiceChargeDAO {
 	public void addServiceCharge(ServiceCharge serviceCharge) {
 		entityManager.persist(serviceCharge);
 		entityManager.flush();
+		
+	}
+
+	public List<ServiceCharge> getServiceCharges() {
+		List<ServiceCharge> serviceCharges = entityManager.createQuery("SELECT s FROM ServiceCharge s", ServiceCharge.class).getResultList();
+		return serviceCharges;
+	}
+
+	public void deleteCharge(ServiceCharge serviceCharge) {
+		int ID = serviceCharge.getChargeID();
+		entityManager.createQuery("DELETE FROM ServiceCharge WHERE chargeID = " + ID).executeUpdate();
 		
 	}
 

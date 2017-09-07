@@ -7,6 +7,12 @@ import java.time.temporal.TemporalAdjusters;
 
 import javax.ejb.Stateless;
 
+/**
+ * An utility class to facilitate calculations on dates.
+ * 
+ * @author unknown
+ *
+ */
 @Stateless
 public class DateUtilities {
 
@@ -31,8 +37,6 @@ public class DateUtilities {
 		return sql;
 	}
 
-	
-	
 	/**
 	 * 
 	 * @return a sql.Date with the end of this month (last Friday)
@@ -98,5 +102,5 @@ public class DateUtilities {
 		}
 		return d;
 	}
-	
+
 }

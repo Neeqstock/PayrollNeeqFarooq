@@ -19,6 +19,12 @@ import junit.framework.Assert;
 import model.FlatEmployee;
 import model.ServiceCharge;
 
+/**
+ * Tests various functions on the ServiceCharge entity.
+ * 
+ * @author neeqstock
+ *
+ */
 @RunWith(Arquillian.class)
 public class ServiceChargeTest {
 
