@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog id="dialogAddCharge" header="Add service charge"
+		widgetVar="dlgAddCharge" modal="true">
+		<h:form id="formAddCharge">
+			<p:panelGrid columns="2">
+				<h:outputText value="Employee ID:" />
+				<h:outputText
+					value="#{adminBean.serviceChargeToAdd.employee.employeeID}" />
+
+				<h:outputText value="Employee name:" />
+				<h:outputText value="#{adminBean.serviceChargeToAdd.employee.name}" />
+
+				<h:outputText value="Employee surname:" />
+				<h:outputText
+					value="#{adminBean.serviceChargeToAdd.employee.surname}" />
+
+				<h:outputText value="Amount:" />
+				<h:inputText value="#{adminBean.serviceChargeToAdd.amount}" />
+
+				<p:outputLabel for="dateMask" value="Date:" />
+				<p:calendar id="dateMask" value="#{adminBean.chargeDate}"
+					pattern="yyyy-MM-dd" mask="true" />
+
+
+			</p:panelGrid>
+			<h:commandButton value="Add" icon="ui-icon-plus"
+				actionListener="#{adminBean.submitServiceCharge}"
+				update="serviceChargeDT" />
+		</h:form>
+	</p:dialog>
+
+</ui:composition>

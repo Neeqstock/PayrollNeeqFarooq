@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+	<p:panel id="basic" header="Welcome, administrator!" toggleSpeed="500"
+		closeSpeed="500" style="margin-bottom:20px">
+
+		<h:panelGrid columns="2" cellpadding="10">
+			<h:form id="form">
+				<h:graphicImage library="images" name="question-mark.png" width="50"
+					height="50" />
+				&nbsp;
+				<h:outputText
+					value="You are logged as administrator. Would you like to go to the administration interface, or your employee's interface?" />
+				<br />
+				<br />
+				<p:commandButton value="Continue as Admin" action="#{loginBean.continueAsAdmin()}" />
+				<p:commandButton value="Continue as Employee" action="#{loginBean.continueAsEmployee()}" />
+			</h:form>
+		</h:panelGrid>
+
+	</p:panel>
+</h:body>
+
+
+</html>

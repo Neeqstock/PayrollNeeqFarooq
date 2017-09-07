@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+	<p:growl id="growl" life="2000" />
+
+	<!-- WELCOME PANEL -->
+	<p:panel id="welcome" header="Welcome, #{loginBean.username}"
+		style="margin-bottom:20px">
+		<h:graphicImage library="images" name="employee.png" width="50"
+			height="50" />
+		&nbsp;
+		<h:outputText
+			value="Welcome, employee! From this interface, you are able to see your informations, modify some fields, submit and see your timecards." />
+		<br />
+		<br />
+		<h:form>
+			<p:commandButton value="Logout" id="btnLogout" icon="ui-icon-key"
+				action="#{loginBean.logout()}" />
+		</h:form>
+
+	</p:panel>
+
+	<!-- DETAILS PANEL -->
+	<p:panel id="flatDetails" header="Personal details"
+		style="margin-bottom:20px">
+		<h:form id="formModifyDetails">
+			<p:panelGrid columns="2">
+				<h:outputText value="Name:" />
+				<h:outputText value="#{hourlyEmployeeBean.hourlyEmployee.name}" />
+
+				<h:outputText value="Surname:" />
+				<h:outputText value="#{hourlyEmployeeBean.hourlyEmployee.surname}" />
+
+				<h:outputText value="Hourly rate:" />
+				<h:outputText value="#{hourlyEmployeeBean.hourlyEmployee.rate}" />
+
+				<h:outputText value="In union:" />
+				<h:outputText value="#{hourlyEmployeeBean.hourlyEmployee.inUnion}" />
+
+				<h:outputText value="Union dues:" />
+				<h:outputText value="#{hourlyEmployeeBean.hourlyEmployee.unionDues}" />
+
+				<h:outputText value="Address:" />
+				<h:inputText value="#{hourlyEmployeeBean.hourlyEmployee.address}" />
+
+				<h:outputText value="Method Of Payment: " />
+				<p:selectOneMenu id="paymentMethod"
+					value="#{hourlyEmployeeBean.hourlyEmployee.methodOfPayment}">
+					<f:selectItem itemLabel="Mailed" itemValue="Mailed" />
+					<f:selectItem itemLabel="Pickup" itemValue="Pickup" />
+					<f:selectItem itemLabel="Bank" itemValue="Bank" />
+				</p:selectOneMenu>
+
+				<h:outputText value="Bank account:" />
+				<h:inputText
+					value="#{hourlyEmployeeBean.hourlyEmployee.bankAccount}" />
+
+			</p:panelGrid>
+			<br />
+			<h:commandButton value="Submit modifications" icon="ui-pencil"
+				actionListener="#{hourlyEmployeeBean.submitModifications}"
+				update="growl" />
+		</h:form>
+	</p:panel>
+
+	<!-- TIMECARDS PANEL -->
+	<p:panel id="timeCards" header="Timecards" style="margin-bottom:20px">
+		<h:form>
+
+			<!-- Date selector -->
+			<h:outputText value="List your timecards" />
+			<p:panelGrid columns="2">
+				<p:outputLabel for="firstDate" value="From:" />
+				<p:calendar id="firstDate" value="#{hourlyEmployeeBean.firstDate}"
+					pattern="yyyy-MM-dd" mask="true" />
+
+				<p:outputLabel for="lastDate" value="To:" />
+				<p:calendar id="lastDate" value="#{hourlyEmployeeBean.lastDate}"
+					pattern="yyyy-MM-dd" mask="true" />
+			</p:panelGrid>
+			<br />
+			<h:commandButton value="List timecards" icon="fa-newspaper-o"
+				actionListener="#{hourlyEmployeeBean.listTimeCards}"
+				update="timeCardsDT" />
+			<br />
+			<br />
+			<!-- Table -->
+			<p:dataTable id="timeCardsDT" var="timeCard"
+				value="#{hourlyEmployeeBean.timeCardsList}"
+				selection="#{hourlyEmployeeBean.selectedTimeCard}"
+				rowKey="#{timeCard.timecardID}" style="margin-bottom:0">
+				<p:column selectionMode="single"
+					style="width:16px;text-align:center" />
+				<p:column headerText="ID" style="width:16px;">
+					<h:outputText value="#{timeCard.timecardID}" />
+				</p:column>
+				<p:column headerText="Date">
+					<h:outputText value="#{timeCard.timeCardDate}" />
+				</p:column>
+				<p:column headerText="Hours worked">
+					<h:outputText value="#{timeCard.hoursWorked}" />
+				</p:column>
+				<p:column headerText="Additional info"
+					style=" width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+					<h:outputText value="#{timeCard.additionalInfo}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton id="deleteTimeCard" icon="ui-icon-closethick"
+				value="Delete"
+				actionListener="#{hourlyEmployeeBean.deleteTimeCard}"
+				update="timeCardsDT, growl" />
+			<p:commandButton id="addTimeCard" icon="ui-icon-plus"
+				value="Add new" onclick="PF('dlgAddTimeCard').show();"
+				update="formAddTimeCard" />
+		</h:form>
+	</p:panel>
+
+	<ui:include src="/dlgAddTimeCard.xhtml" />
+</h:body>
+
+
+</html>
