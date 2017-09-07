@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog id="dialogPayments"
+		header="Payments for date: #{adminBean.runPayrollDate.year + 1900} - #{adminBean.runPayrollDate.month + 1} - #{adminBean.runPayrollDate.date}"
+		widgetVar="dlgPayments" modal="true">
+		<p:dataTable id="paymentsDT" var="payment" value="#{adminBean.paymentsList}">
+			<p:column headerText="ID" width="15px">
+				<h:outputText value="#{payment.paymentID}" />
+			</p:column>
+			<p:column headerText="Employee ID">
+				<h:outputText value="#{payment.employee.employeeID}" />
+			</p:column>
+			<p:column headerText="Employee name">
+				<h:outputText value="#{payment.employee.name}" />
+			</p:column>
+			<p:column headerText="Employee surname">
+				<h:outputText value="#{payment.employee.surname}" />
+			</p:column>
+			<p:column headerText="Amount">
+				<h:outputText value="#{payment.paymentAmount}" />
+			</p:column>
+		</p:dataTable>
+	</p:dialog>
+
+
+</ui:composition>

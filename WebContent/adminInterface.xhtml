@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+	<p:growl id="growl" life="2000" />
+
+	<!-- WELCOME PANEL -->
+	<p:panel id="welcome" header="Welcome, #{loginBean.username}"
+		style="margin-bottom:20px">
+		<h:graphicImage library="images" name="admin.png" width="50"
+			height="50" />
+		&nbsp;
+		<h:outputText
+			value="Welcome, administrator! From this interface, you are able to see all the employees details and modify them." />
+		<br />
+		<br />
+		<h:form>
+			<p:commandButton value="Logout" id="btnLogout" icon="ui-icon-key"
+				action="#{loginBean.logout()}" />
+		</h:form>
+	</p:panel>
+
+	<p:panel header="Employees lists" style="margin-bottom:20px">
+
+		<!-- FLAT EMPLOYEES PANEL -->
+		<p:accordionPanel>
+			<p:tab title="Flat employees">
+				<h:form>
+					<p:dataTable id="flatEmployeesDT" var="flatEmployee"
+						value="#{adminBean.flatEmployeesList}"
+						selection="#{adminBean.selectedFlatEmployee}"
+						rowKey="#{flatEmployee.employeeID}" style="margin-bottom:0">
+						<p:column selectionMode="single"
+							style="width:16px;text-align:center" />
+						<p:column headerText="ID" style="width:16px;">
+							<h:outputText value="#{flatEmployee.employeeID}" />
+						</p:column>
+						<p:column headerText="Name">
+							<h:outputText value="#{flatEmployee.name}" />
+						</p:column>
+						<p:column headerText="Surname">
+							<h:outputText value="#{flatEmployee.surname}" />
+						</p:column>
+						<p:column headerText="Address"
+							style=" width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+							<h:outputText value="#{flatEmployee.address}" />
+						</p:column>
+						<p:column headerText="Contract">
+							<h:outputText value="#{flatEmployee.contractType}" />
+						</p:column>
+						<p:column headerText="Payment">
+							<h:outputText value="#{flatEmployee.methodOfPayment}" />
+						</p:column>
+						<p:column headerText="Bank account">
+							<h:outputText value="#{flatEmployee.bankAccount}" />
+						</p:column>
+						<p:column headerText="In union">
+							<h:outputText value="#{flatEmployee.inUnion}" />
+						</p:column>
+						<p:column headerText="Union dues">
+							<h:outputText value="#{flatEmployee.unionDues}" />
+						</p:column>
+						<p:column headerText="Salary">
+							<h:outputText value="#{flatEmployee.salary}" />
+						</p:column>
+						<p:column headerText="Commission rate">
+							<h:outputText value="#{flatEmployee.commissionRate}" />
+						</p:column>
+					</p:dataTable>
+					<p:commandButton id="deleteFlat" icon="ui-icon-closethick"
+						value="Delete" actionListener="#{adminBean.deleteFlatEmployee}"
+						update="flatEmployeesDT, growl" />
+					<p:commandButton id="modifyFlat" icon="ui-icon-pencil"
+						value="Modify" onclick="PF('dlgModifyFlat').show();"
+						update="formModifyFlat" />
+					<p:commandButton id="addFlat" icon="ui-icon-plus" value="Add"
+						onclick="PF('dlgAddFlat').show();" update="formAddFlat" />
+					<p:commandButton id="addCharge" icon="ui-icon-document"
+						value="Service charge"
+						actionListener="#{adminBean.selectFlatEmployeeToCharge}"
+						onclick="PF('dlgAddCharge').show();" update="formAddCharge" />
+				</h:form>
+			</p:tab>
+
+			<!-- HOURLY EMPLOYEES PANEL -->
+			<p:tab title="Hourly employees">
+				<h:form>
+					<p:dataTable id="hourlyEmployeesDT" var="hourlyEmployee"
+						value="#{adminBean.hourlyEmployeesList}"
+						selection="#{adminBean.selectedHourlyEmployee}"
+						rowKey="#{hourlyEmployee.employeeID}" style="margin-bottom:0">
+						<p:column selectionMode="single"
+							style="width:16px;text-align:center" />
+						<p:column headerText="ID" style="width:16px;">
+							<h:outputText value="#{hourlyEmployee.employeeID}" />
+						</p:column>
+						<p:column headerText="Name">
+							<h:outputText value="#{hourlyEmployee.name}" />
+						</p:column>
+						<p:column headerText="Surname">
+							<h:outputText value="#{hourlyEmployee.surname}" />
+						</p:column>
+						<p:column headerText="Address"
+							style=" width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+							<h:outputText value="#{hourlyEmployee.address}" />
+						</p:column>
+						<p:column headerText="Contract">
+							<h:outputText value="#{hourlyEmployee.contractType}" />
+						</p:column>
+						<p:column headerText="Payment">
+							<h:outputText value="#{hourlyEmployee.methodOfPayment}" />
+						</p:column>
+						<p:column headerText="Bank account">
+							<h:outputText value="#{hourlyEmployee.bankAccount}" />
+						</p:column>
+						<p:column headerText="In union">
+							<h:outputText value="#{hourlyEmployee.inUnion}" />
+						</p:column>
+						<p:column headerText="Union dues">
+							<h:outputText value="#{hourlyEmployee.unionDues}" />
+						</p:column>
+						<p:column headerText="Hourly rate">
+							<h:outputText value="#{hourlyEmployee.rate}" />
+						</p:column>
+					</p:dataTable>
+					<p:commandButton id="deleteHourly" icon="ui-icon-closethick"
+						value="Delete" actionListener="#{adminBean.deleteHourlyEmployee}"
+						update="hourlyEmployeesDT, growl" />
+					<p:commandButton id="modifyFlat" icon="ui-icon-pencil"
+						value="Modify" onclick="PF('dlgModifyHourly').show();"
+						update="formModifyHourly" />
+					<p:commandButton id="addHourly" icon="ui-icon-plus" value="Add"
+						onclick="PF('dlgAddHourly').show();" update="formAddHourly" />
+					<p:commandButton id="addCharge" icon="ui-icon-document"
+						value="Service charge"
+						actionListener="adminBean.selectHourlyEmployeeToCharge"
+						update="formAddCharge" ajax="true"
+						oncomplete="PF('dlgAddCharge').show();">
+					</p:commandButton>
+				</h:form>
+
+
+			</p:tab>
+		</p:accordionPanel>
+	</p:panel>
+
+	<!-- SERVICE CHARGES -->
+	<p:panel header="Service charges">
+		<h:form>
+			<p:dataTable id="serviceChargesDT" var="serviceCharge"
+				value="#{adminBean.serviceChargesList}"
+				selection="#{adminBean.selectedServiceCharge}"
+				rowKey="#{serviceCharge.chargeID}" style="margin-bottom:0">
+				<p:column selectionMode="single"
+					style="width:16px;text-align:center" />
+				<p:column headerText="ID" style="width:16px;">
+					<h:outputText value="#{serviceCharge.chargeID}" />
+				</p:column>
+				<p:column headerText="Employee name">
+					<h:outputText value="#{serviceCharge.employee.name}" />
+				</p:column>
+				<p:column headerText="Employee surname">
+					<h:outputText value="#{serviceCharge.employee.surname}" />
+				</p:column>
+				<p:column headerText="Employee ID">
+					<h:outputText value="#{serviceCharge.employee.employeeID}" />
+				</p:column>
+				<p:column headerText="Date">
+					<h:outputText value="#{serviceCharge.chargeDate}" />
+				</p:column>
+				<p:column headerText="Amount">
+					<h:outputText value="#{serviceCharge.amount}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton id="deleteCharge" icon="ui-icon-closethick"
+				value="Delete" actionListener="#{adminBean.deleteSelectedCharge}"
+				update="serviceChargesDT, growl" />
+		</h:form>
+	</p:panel>
+
+	<!-- COMMANDS -->
+	<p:panel header="Commands">
+		<h:form>
+			<p:panelGrid columns="2">
+				<p:outputLabel for="runPayrollDate" value="Run payroll for date:" />
+				<p:calendar id="runPayrollDate" value="#{adminBean.runPayrollDate}"
+					pattern="yyyy-MM-dd" mask="true" />
+			</p:panelGrid>
+			<p:commandButton id="btnRunPayroll" icon="ui-icon-tick" value="Run"
+				update="dialogPayments, growl"
+				actionListener="#{adminBean.runPayroll}" ajax="true"
+				oncomplete="PF('dlgPayments').show();" />
+		</h:form>
+	</p:panel>
+
+	<!-- DIALOGS -->
+	<ui:include src="/dlgAddEmployee.xhtml" />
+	<ui:include src="/dlgModifyEmployee.xhtml" />
+	<ui:include src="/dlgChargeEmployee.xhtml" />
+	<ui:include src="/dlgPayments.xhtml" />
+</h:body>
+
+
+</html>

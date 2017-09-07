@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog id="dialogModifyFlat" header="Modify flat employee" widgetVar="dlgModifyFlat"
+		modal="true">
+		<h:form id="formModifyFlat">
+			<p:panelGrid columns="2">
+				<h:outputText value="Name:" />
+				<h:inputText value="#{adminBean.selectedFlatEmployee.name}" />
+
+				<h:outputText value="Surname:" />
+				<h:inputText value="#{adminBean.selectedFlatEmployee.surname}" />
+
+				<h:outputText value="Address:" />
+				<h:inputText value="#{adminBean.selectedFlatEmployee.address}" />
+
+				<h:outputText value="Salary:" />
+				<h:inputText value="#{adminBean.selectedFlatEmployee.salary}" />
+
+				<h:outputText value="Commission Rate:" />
+				<h:inputText
+					value="#{adminBean.selectedFlatEmployee.commissionRate}" />
+
+				<h:outputText value="Method Of Payment: " />
+				<p:selectOneMenu id="payment"
+					value="#{adminBean.selectedFlatEmployee.methodOfPayment}">
+					<f:selectItem itemLabel="Mailed" itemValue="Mailed" />
+					<f:selectItem itemLabel="Pickup" itemValue="Pickup" />
+					<f:selectItem itemLabel="Bank" itemValue="Bank" />
+				</p:selectOneMenu>
+
+				<h:outputText value="Bank Account: " />
+				<h:inputText value="#{adminBean.selectedFlatEmployee.bankAccount}" />
+
+				<h:outputText value="Belongs to the Union: " />
+				<p:selectBooleanButton
+					value="#{adminBean.selectedFlatEmployee.inUnion}" onLabel="Yes"
+					offLabel="No" />
+
+				<h:outputText value="Union dues: " />
+				<h:inputText value="#{adminBean.selectedFlatEmployee.unionDues}" />
+
+				<h:commandButton value="Modify Entry"
+					actionListener="#{adminBean.submitModifyFlat}" update="flatEmployeesDT" />
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+	<p:dialog id="dialogModifyHourly" header="Modify flat employee" widgetVar="dlgModifyHourly"
+		modal="true">
+		<h:form id="formModifyHourly">
+			<p:panelGrid columns="2">
+				<h:outputText value="Name:" />
+				<h:inputText value="#{adminBean.selectedHourlyEmployee.name}" />
+
+				<h:outputText value="Surname:" />
+				<h:inputText value="#{adminBean.selectedHourlyEmployee.surname}" />
+
+				<h:outputText value="Address:" />
+				<h:inputText value="#{adminBean.selectedHourlyEmployee.address}" />
+
+				<h:outputText value="Salary:" />
+				<h:inputText value="#{adminBean.selectedHourlyEmployee.rate}" />
+
+				<h:outputText value="Method Of Payment: " />
+				<p:selectOneMenu id="payment"
+					value="#{adminBean.selectedHourlyEmployee.methodOfPayment}">
+					<f:selectItem itemLabel="Mailed" itemValue="Mailed" />
+					<f:selectItem itemLabel="Pickup" itemValue="Pickup" />
+					<f:selectItem itemLabel="Bank" itemValue="Bank" />
+				</p:selectOneMenu>
+
+				<h:outputText value="Bank Account: " />
+				<h:inputText value="#{adminBean.selectedHourlyEmployee.bankAccount}" />
+
+				<h:outputText value="Belongs to the Union: " />
+				<p:selectBooleanButton
+					value="#{adminBean.selectedHourlyEmployee.inUnion}" onLabel="Yes"
+					offLabel="No" />
+
+				<h:outputText value="Union dues: " />
+				<h:inputText value="#{adminBean.selectedHourlyEmployee.unionDues}" />
+
+				<h:commandButton value="Modify Entry"
+					actionListener="#{adminBean.submitModifyHourly}" update="hourlyEmployeesDT" />
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+
+
+</ui:composition>

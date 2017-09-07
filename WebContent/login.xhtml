@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+	<p:growl id="msgs" showDetail="true" />
+
+	<p:panel id="basic" header="Login" toggleSpeed="500" closeSpeed="500"
+		style="margin-bottom:20px">
+
+		<h:panelGrid columns="2" cellpadding="10">
+			<h:form id="form">
+				<h:graphicImage library="images" name="user.png" width="50"
+					height="50" />
+				&nbsp;
+				<h:outputText
+					value="Welcome! Insert your username and password to continue." />
+
+
+				<br />
+				<br />
+				<p:inputText id="username" value="#{loginBean.username}"
+					required="true" placeholder="Username" />
+				<br />
+				<p:inputText id="password" type="password"
+					value="#{loginBean.password}" required="true"
+					placeholder="Password" />
+				<br />
+				<br />
+				<p:commandButton value="Login" action="#{loginBean.validate()}" />
+			</h:form>
+		</h:panelGrid>
+
+	</p:panel>
+</h:body>
+
+
+</html>
