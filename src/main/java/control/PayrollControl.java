@@ -37,6 +37,12 @@ import payment.TestMailPayer;
 import payment.TestPickupPayer;
 import tools.DateUtilities;
 
+/**
+ * Controls the payroll system logic.
+ * 
+ * @author neeqstock
+ *
+ */
 @Stateless
 public class PayrollControl {
 
@@ -176,9 +182,13 @@ public class PayrollControl {
 	 * @param employee
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	private float getUnionDeductions(Date date, Employee employee) {
 		if (employee.isInUnion()) {
 			Date startDate = employee.getLastPaid();
+			if(startDate == null){
+				startDate = new Date(1900, 1, 1);
+			}
 
 			List<ServiceCharge> serviceChargesOfEmployee = serviceChargeDAO.getServiceChargesOfEmployee(employee);
 			float chargesAmount = 0;
@@ -237,8 +247,12 @@ public class PayrollControl {
 		return total;
 	}
 
+	@SuppressWarnings("deprecation")
 	private float getFlatPayments(Date endDate, FlatEmployee employee) {
 		Date startDate = employee.getLastPaid();
+		if (startDate == null) {
+			startDate = new Date(1900, 1, 1);
+		}
 		float salary = employee.getSalary();
 
 		// Code taken from:
@@ -274,6 +288,14 @@ public class PayrollControl {
 		}
 		float hourlyPayments = totalHoursAmount * employee.getRate() + (HourlyEmployeeConstants.extraAmount - 1) * employee.getRate() * extraHoursAmount;
 		return hourlyPayments;
+	}
+
+	public List<Payment> getPayments(Date date) {
+		return paymentDAO.getPaymentsInDate(date);
+	}
+	
+	public List<Payment> getPayments(Employee employee) {
+		return paymentDAO.getPaymentsOfEmployee(employee);
 	}
 
 }

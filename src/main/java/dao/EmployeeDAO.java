@@ -11,9 +11,16 @@ import model.Employee;
 import model.FlatEmployee;
 import model.HourlyEmployee;
 
+/**
+ * Database management for the Employee, FlatEmployee ad HourlyEmployee
+ * entities.
+ * 
+ * @author neeqstock
+ *
+ */
 @Stateless
 public class EmployeeDAO {
-	
+
 	@PersistenceContext
 	EntityManager entityManager;
 
@@ -25,90 +32,75 @@ public class EmployeeDAO {
 	public void addHourlyEmployee(HourlyEmployee employee) {
 		entityManager.persist(employee);
 		entityManager.flush();
-		
+
 	}
 
 	public List<FlatEmployee> getFlatEmployees() {
-		List<FlatEmployee> employees = entityManager.createQuery("SELECT * FROM Employee WHERE ContractType='" + ContractTypes.flat + "';", FlatEmployee.class).getResultList();
+		List<FlatEmployee> employees = entityManager
+				.createQuery("SELECT e FROM FlatEmployee e WHERE ContractType='" + ContractTypes.flat + "'",
+						FlatEmployee.class)
+				.getResultList();
 		return employees;
 	}
 
 	public List<HourlyEmployee> getHourlyEmployees() {
-		List<HourlyEmployee> employees = entityManager.createQuery("SELECT * FROM Employee WHERE ContractType='" + ContractTypes.flat + "';", HourlyEmployee.class).getResultList();
+		List<HourlyEmployee> employees = entityManager
+				.createQuery("SELECT e FROM HourlyEmployee e WHERE ContractType='" + ContractTypes.hourly + "'",
+						HourlyEmployee.class)
+				.getResultList();
 		return employees;
 	}
 
 	public void purgeFlatEmployee(FlatEmployee flatEmployee) {
-		int ID = retrieveEmployeeID(flatEmployee);
-		entityManager.createQuery("DELETE FROM Employee WHERE employeeID ='" + ID + "';").executeUpdate();
-		entityManager.createQuery("DELETE FROM Payment WHERE employeeID ='" + ID + "';").executeUpdate();
-		entityManager.createQuery("DELETE FROM SalesReceipt WHERE employeeID ='" + ID + "';").executeUpdate();
-		entityManager.createQuery("DELETE FROM ServiceCharge WHERE employeeID ='" + ID + "';").executeUpdate();
-	}
-	
-	public void purgeHourlyEmployee(HourlyEmployee hourlyEmployee) {
-		int ID = retrieveEmployeeID(hourlyEmployee);
-		entityManager.createQuery("DELETE FROM Employee WHERE employeeID ='" + ID + "';").executeUpdate();
-		entityManager.createQuery("DELETE FROM Payment WHERE employeeID ='" + ID + "';").executeUpdate();
-		entityManager.createQuery("DELETE FROM TimeCard WHERE employeeID ='" + ID + "';").executeUpdate();
+		FlatEmployee emp = entityManager.contains(flatEmployee) ? flatEmployee : entityManager.merge(flatEmployee);
+		int ID = emp.getEmployeeID();
+
+		entityManager.createQuery("DELETE FROM Account WHERE employeeID ='" + ID + "'").executeUpdate();
+		entityManager.createQuery("DELETE FROM Payment WHERE employeeID ='" + ID + "'").executeUpdate();
+		entityManager.createQuery("DELETE FROM SalesReceipt WHERE employeeID ='" + ID + "'").executeUpdate();
+		entityManager.createQuery("DELETE FROM ServiceCharge WHERE employeeID ='" + ID + "'").executeUpdate();
+		entityManager.createQuery("DELETE FROM FlatEmployee WHERE employeeID ='" + ID + "'").executeUpdate();
 	}
 
-	public int editFlatEmployee(FlatEmployee flatEmployee, String newName, String newSurname, String newAddress,
-			String newPaymentMethod, String newBankAccount, float newSalary, float newCommissionRate) {
-		Employee employee = entityManager.contains(flatEmployee) ? flatEmployee : entityManager.merge(flatEmployee);
-		entityManager.createQuery("UPDATE Employee SET "
-				+ "name = '" + newName + "',"
-				+ "surname = '" + newSurname + "',"
-				+ "address = '" + newAddress + "',"
-				+ "paymentMethod = '" + newPaymentMethod + "',"
-				+ "bankAccount = '" + newBankAccount + "',"
-				+ "salary = '" + newSalary + "',"
-				+ "commissionRate = '" + newCommissionRate + "',"
-				+ "WHERE employeeID = " + employee.getEmployeeID()).executeUpdate();
-				return 0;
+	public void purgeHourlyEmployee(HourlyEmployee hourlyEmployee) {
+		int ID = hourlyEmployee.getEmployeeID();
+
+		entityManager.createQuery("DELETE FROM Account WHERE employeeID ='" + ID + "'").executeUpdate();
+		entityManager.createQuery("DELETE FROM Payment WHERE employeeID ='" + ID + "'").executeUpdate();
+		entityManager.createQuery("DELETE FROM TimeCard WHERE employeeID ='" + ID + "'").executeUpdate();
+		entityManager.createQuery("DELETE FROM ServiceCharge WHERE employeeID ='" + ID + "'").executeUpdate();
+		entityManager.createQuery("DELETE FROM Employee WHERE employeeID ='" + ID + "'").executeUpdate();
 	}
-	
-	public int editFlatEmployee(int employeeID, FlatEmployee modifiedFlatEmployee) {
-		entityManager.createQuery("UPDATE Employee SET "
-				+ "name = '" + modifiedFlatEmployee.getName() + "',"
-				+ "surname = '" + modifiedFlatEmployee.getSurname() + "',"
-				+ "address = '" + modifiedFlatEmployee.getAddress() + "',"
-				+ "paymentMethod = '" + modifiedFlatEmployee.getMethodOfPayment() + "',"
-				+ "bankAccount = '" + modifiedFlatEmployee.getBankAccount() + "',"
-				+ "salary = '" + modifiedFlatEmployee.getSalary() + "',"
-				+ "commissionRate = '" + modifiedFlatEmployee.getCommissionRate() + "',"
-				+ "WHERE employeeID = " + employeeID).executeUpdate();
-				return 0;
-	}
-	
-	public int editHourlyEmployee(int employeeID, HourlyEmployee modifiedHourlyEmployee) {
-		entityManager.createQuery("UPDATE Employee SET "
-				+ "name = '" + modifiedHourlyEmployee.getName() + "',"
-				+ "surname = '" + modifiedHourlyEmployee.getSurname() + "',"
-				+ "address = '" + modifiedHourlyEmployee.getAddress() + "',"
-				+ "paymentMethod = '" + modifiedHourlyEmployee.getMethodOfPayment() + "',"
-				+ "bankAccount = '" + modifiedHourlyEmployee.getBankAccount() + "',"
-				+ "rate = '" + modifiedHourlyEmployee.getRate() + "',"
-				+ "WHERE employeeID = " + employeeID).executeUpdate();
-				return 0;
-	}
-	
-	public void updateFlatEmployee(FlatEmployee employee){
-		entityManager.merge(employee); 		
+
+	public void updateFlatEmployee(FlatEmployee employee) {
+		entityManager.merge(employee);
 		entityManager.flush();
 	}
-	
+
 	public void updateHourlyEmployee(HourlyEmployee employee) {
-		entityManager.merge(employee); 		
+		entityManager.merge(employee);
 		entityManager.flush();
 	}
-	
-	public int retrieveEmployeeID(Employee employee){
+
+	public int retrieveEmployeeID(Employee employee) {
 		Employee dbEmployee = entityManager.contains(employee) ? employee : entityManager.merge(employee);
 		return dbEmployee.getEmployeeID();
 	}
 
 	public Employee getEmployee(int employeeID) {
-		return entityManager.createQuery("SELECT * FROM Employee WHERE employeeID =" + employeeID + ";", Employee.class).getSingleResult();
+		return entityManager.createQuery("SELECT e FROM Employee e WHERE employeeID =" + employeeID, Employee.class)
+				.getSingleResult();
+	}
+
+	public FlatEmployee getFlatEmployee(int employeeID) {
+		return entityManager
+				.createQuery("SELECT e FROM FlatEmployee e WHERE employeeID =" + employeeID, FlatEmployee.class)
+				.getSingleResult();
+	}
+
+	public HourlyEmployee getHourlyEmployee(int employeeID) {
+		return entityManager
+				.createQuery("SELECT e FROM HourlyEmployee e WHERE employeeID =" + employeeID, HourlyEmployee.class)
+				.getSingleResult();
 	}
 }

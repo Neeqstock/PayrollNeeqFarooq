@@ -19,6 +19,12 @@ import junit.framework.Assert;
 import model.FlatEmployee;
 import model.SalesReceipt;
 
+/**
+ * Tests various functions on the SalesReceipt entity.
+ * 
+ * @author neeqstock
+ *
+ */
 @RunWith(Arquillian.class)
 public class SalesReceiptTest {
 

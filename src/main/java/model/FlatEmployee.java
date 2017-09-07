@@ -6,22 +6,30 @@ import javax.persistence.Table;
 
 import constants.ContractTypes;
 
+/**
+ * An entity that describes a flat employee. Father class: Employee.
+ * 
+ * @author neeqstock
+ *
+ */
 @Entity
 @Table(name = "Employee")
 @DiscriminatorValue(ContractTypes.flat)
-public class FlatEmployee extends Employee{
-	
+public class FlatEmployee extends Employee {
+
 	// FIELDS
 	private float salary;
 	private float commissionRate;
-	
+
 	// CONSTRUCTORS
-	public FlatEmployee(String name, String surname, String address, String contractType, String methodOfPayment, float salary, float commissionRate){
+	public FlatEmployee(String name, String surname, String address, String contractType, String methodOfPayment,
+			float salary, float commissionRate) {
 		super(name, surname, address, contractType, methodOfPayment);
 		this.salary = salary;
 		this.commissionRate = commissionRate;
 	}
-	public FlatEmployee(){
+
+	public FlatEmployee() {
 		super();
 	};
 
@@ -29,14 +37,17 @@ public class FlatEmployee extends Employee{
 	public float getSalary() {
 		return salary;
 	}
+
 	public void setSalary(float salary) {
 		this.salary = salary;
 	}
+
 	public float getCommissionRate() {
 		return commissionRate;
 	}
+
 	public void setCommissionRate(float commissionRate) {
 		this.commissionRate = commissionRate;
 	}
-	
+
 }
